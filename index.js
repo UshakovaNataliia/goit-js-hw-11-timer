@@ -1,23 +1,54 @@
-// Есть массив цветов в hex-формате и кнопки Start и Stop.
+const refs = {
+    daysFace: document.querySelector('span[data-value="days"]'),
+   hoursFace: document.querySelector('span[data-value="hours"]'),
+    minsFace: document.querySelector('span[data-value="mins"]'),
+    secsFace: document.querySelector('span[data-value="secs"]'),
+  };
 
-// <button type="button" data-action="start">Start</button>
-// <button type="button" data-action="stop">Stop</button>
-// const colors = [
-//   '#FFFFFF',
-//   '#2196F3',
-//   '#4CAF50',
-//   '#FF9800',
-//   '#009688',
-//   '#795548',
-// ];
-// Напиши скрипт, который после нажатия кнопки Start, раз в секунду меняет цвет фона body на случайное значение из массива используя инлайн-стиль. При нажатии на кнопку Stop, изменение цвета фона должно останавливаться.
+  class CountdownTimer {
+    constructor({ selector, targetDate }) {
+      this.selector = selector;
+      this.targetDate = targetDate;
+      this.intervalId = null;
+      this.start();
+    };
 
-// ⚠️ Учти, на кнопку Start можно нажать бесконечное количество раз. Сделай так, чтобы пока изменение темы запушено, кнопка Start была не активна.
+    start() {
+    const startTime = this.targetDate;
+    const currentTime = Date.now();
+    const deltaTime = startTime - currentTime;
 
-// Для генерации случайного числа (индекс элемента массива цветов), используй функцию randomIntegerFromInterval.
+    this.updateClockFace(deltaTime);
+    
+    this.intervalId = setInterval(() => {
+      const currentTime = Date.now();
+      const deltaTime = startTime - currentTime;
 
-// const randomIntegerFromInterval = (min, max) => {
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// };
+      this.updateClockFace(deltaTime);
+    }, 1000);
+    };
+
+    updateClockFace (time) {  
+     const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+    const hours = pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+     const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+     const secs = pad(Math.floor((time % (1000 * 60)) / (1000)));
+    
+    refs.daysFace.textContent = days;
+    refs.hoursFace.textContent = hours;
+    refs.minsFace.textContent = mins;
+    refs.secsFace.textContent = secs;
+    };
+};
+
+function pad(value) {
+    return String(value).padStart(2, '0');
+  };
+
+
+const timer = new CountdownTimer({
+    selector: '#timer-1',
+    targetDate: new Date('Aug 24, 2020'),
+});
 
 
