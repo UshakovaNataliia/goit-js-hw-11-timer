@@ -35,57 +35,56 @@
 //! ------------Решение через класс------------
 
 class CountdownTimer{
-constructor({ selector, targetDate }) {
-  this.selector = selector;
-  this.targetDate = targetDate;
-  this.start();
-}
-start(){
-  setInterval(() => {
-  const startTime = this.targetDate;
-  const currentTime = Date.now();
-  const deltaTime = startTime - currentTime;
+  constructor({ selector, targetDate }) {
+    this.selector = selector;
+    this.targetDate = targetDate;
+    this.start();
+  }
+  start(){
+    setInterval(() => {
+    const startTime = this.targetDate;
+    const currentTime = Date.now();
+    const deltaTime = startTime - currentTime;
 
-  this.updateClockFace(deltaTime);
- }, 1000);
-}
+    this.updateClockFace(deltaTime);
+   }, 1000);
+  }
 
-updateClockFace (time) {  
-  const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
-  const hours = this.pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-  const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-  const secs = this.pad(Math.floor((time % (1000 * 60)) / (1000)));
-  
-  this.insertMarkup({days, hours, mins, secs});
-}
+  updateClockFace (time) {  
+    const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+    const hours = this.pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+    const secs = this.pad(Math.floor((time % (1000 * 60)) / (1000)));
 
-pad(value) {
-  return String(value).padStart(2, '0');
-}
+    this.insertMarkup({days, hours, mins, secs});
+  }
 
-insertMarkup({ days, hours, mins, secs }){
-  const div = `<div class="timer" id=${this.selector}>`;
-  const markUp= `
-  <div class="field">
-    <span class="value" data-value="days">${days}</span>
-    <span class="label">Days</span>
-  </div>
-  <div class="field">
-    <span class="value" data-value="hours">${hours}</span>
-    <span class="label">Hours</span>
-  </div>
-  <div class="field">
-    <span class="value" data-value="mins">${mins}</span>
-    <span class="label">Minutes</span>
-  </div>
-  <div class="field">
-    <span class="value" data-value="secs">${secs}</span>
-    <span class="label">Second</span>
-  </div>
-</div>`;
-document.querySelector('body').insertAdjacentHTML('beforeend', div);
-document.getElementById(`${this.selector}`).innerHTML = markUp;
-}
+  pad(value) {
+    return String(value).padStart(2, '0');
+  }
+
+  insertMarkup({ days, hours, mins, secs }){
+    const div = `<div class="timer" id=${this.selector}></div>`;
+    const markUp= `
+      <div class="field">
+        <span class="value" data-value="days">${days}</span>
+        <span class="label">Days</span>
+      </div>
+      <div class="field">
+        <span class="value" data-value="hours">${hours}</span>
+        <span class="label">Hours</span>
+      </div>
+      <div class="field">
+        <span class="value" data-value="mins">${mins}</span>
+        <span class="label">Minutes</span>
+      </div>
+      <div class="field">
+        <span class="value" data-value="secs">${secs}</span>
+        <span class="label">Second</span>
+      </div>`;
+  document.querySelector('body').insertAdjacentHTML('beforeend', div);
+  document.getElementById(`${this.selector}`).innerHTML = markUp;
+  }
 };
 
 const timer = new CountdownTimer({
@@ -97,3 +96,9 @@ const timer2 = new CountdownTimer({
   selector: '#timer-2',
   targetDate: new Date('Nov 20, 2020'),
 });
+
+const timer3 = new CountdownTimer({
+  selector: '#timer-3',
+  targetDate: new Date('Dec 31, 2020'),
+});
+
